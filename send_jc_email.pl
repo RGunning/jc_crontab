@@ -4,7 +4,7 @@ use Date::Parse;
 
 @time = localtime(time);
 
-open DATES, "/nfs/users/nfs_d/dk6/training/jc_crontab/jc_dates.txt";
+open DATES, "/nfs/users/nfs_r/rg12/jc_crontab/jc_dates.txt";
 
 while(<DATES>){
 	chomp;
@@ -14,7 +14,7 @@ while(<DATES>){
 	@this_time = strptime($splat[0]);
 	# Send the 4PM email the day of the journal club, and alert the next presenter/host
 	if(!($time[3] - $this_time[3]) && !($time[4] - $this_time[4]) && !($time[5] - $this_time[5])){
-		open TXT, "/nfs/users/nfs_d/dk6/training/jc_crontab/jc_email.txt";
+		open TXT, "/nfs/users/nfs_r/rg12/jc_crontab/jc_email.txt";
 		while(<TXT>){
 			$text .= $_;
 		}
@@ -40,7 +40,7 @@ while(<DATES>){
 	# Send the Friday email when the next Monday is jounal club
 	# Monday - x_Day = 3 when x_Day is Friday.
 	if(($this_time[3] - $time[3] == 3) && !($time[4] - $this_time[4]) && !($time[5] - $this_time[5])){
-		open TXT, "/nfs/users/nfs_d/dk6/training/jc_crontab/jc_friday.txt";
+		open TXT, "/nfs/users/nfs_r/rg12/jc_crontab/jc_friday.txt";
 		while(<TXT>){
 			$text .= $_;
 		}
@@ -55,7 +55,7 @@ while(<DATES>){
 sub get_email_from_name {
     my $name = shift;
     $name =~ s/-/ /g;
-    my $query = `/nfs/users/nfs_d/dk6/programs/scripts/my_tele.pl "$name" `;
+    my $query = `/nfs/users/nfs_r/rg12/jc_crontab/my_tele.pl "$name" `;
     chomp $query;
     my $emailaddy = $query . "\@sanger.ac.uk";
     return $emailaddy;
