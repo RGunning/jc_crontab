@@ -1,0 +1,23 @@
+8th January 2013	C202/03	Aarno Palotie	 Population isolates in disease genetics.
+10th January 2013	C202/03	Chris Tyler-Smith	 Human evolution.
+15th January 2013	C202/03	Ele Zeggini	 Next Generation association studies for complex traits.
+22nd January 2013	C202/03	Ultan McDermott	 The genomics of drug sensitivity in cancer.
+25th January 2013	C202/03	Peter Campbell	 Interrogating the architecture of cancer genomes.
+29th January 2013	C202/03	David Adams	 Don't get burnt. Melanoma gene discovery and therapeutics.
+31st January 2013	C202/03	George Vassiliou	 Acute Myeloid Leukaemia: Sex, drugs and conspiracies.
+1st February 2013	C202/03	Pentao Liu	 Stem cells and cancer.
+12th February 2013	C202/03	Vijay Yadav	 TwoHourLecture- Practical aspects of how to see cells that build and destroy skeleton.
+14th February 2013	C202/03	Darren Logan	 Genetics of flavour perception: smell and taste.
+19th February 2013	C202/03	Dominic Kwiatkowski	 Genomic Epidemiology of Malaria.
+21st February 2013	C209/10	Julian Rayner	 Malaria: Host-parasite interactions during Plasmodium falciparum blood stages.
+26th February 2013	C202/03	Oliver Billker	 Experimental genetics of malaria parasites in a rodent model.
+5th March 2013	C202/03	Gavin Wright	 Systematic extracellular protein interaction screens identify key therapeutic targets: application to malaria.
+7th March 2013	C202/03	Bill Skarnes	 Genetic engineering of mouse and human stem cells.
+12th March 2013	C202/03	Matt Berriman	 Understanding the genomes of parasitic protozoa and helminths.
+14th March 2013	C202/03	Derek Stemple	 Vertebrate Genetics and Development.
+19th March 2013	C202/03	TBC	
+26th March 2013	C202/03	Trevor Lawley	 The role of the intestinal microbiota in health and disease.
+9th April 2013	C202/03	Julian Parkhill	 Bacterial chromosome structure and mechanisms of genetic exchange.
+11th April 2013	C202/03	Julian Parkhill	 Consequences of genetic exchange and genomic variation.
+16th April 2013	C202/03	Paul Kellam	 Host and Virus interactions; the virus story.
+18th April 2013	C202/03	Paul Kellam	 Host and Virus interactions -II; the host story.

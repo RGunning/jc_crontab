@@ -1,0 +1,20 @@
+Dear Attendees,
+
+This is a reminder to us that we are due to attend the PhD journal club in one
+hour (at 16:00). Please don't forget to get hold of the paper and read it
+over this one hour which is left if you still haven't done so.
+
+Today's presenter: foo
+Today's chair: bar
+
+Next up: unique chaired by term
+
+If you cannot make it for a good reason, please send your apologies to Annabel
+<as11@sanger.ac.uk> or Christina <chd@sanger.ac.uk> (which I think only
+concerns people from Sanger Institute. If you are an EBI one - do not e-mail
+Annabel or Christina, unless you want to be funny).
+
+thank you,
+The Ghost of Sergei's crontab
+
+https://helix.wtgc.org/groups/phd-journal-club
