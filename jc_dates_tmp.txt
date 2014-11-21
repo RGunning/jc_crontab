@@ -1,0 +1,34 @@
+May 27, 2014	James Watson Pavilion	Regular	2012-13	Jane Patrick	Neneh Sallah
+June 09, 2014	James Watson Pavilion	Regular	2012-13	Sophia David	Michal Szpak
+June 23, 2014	James Watson Pavilion	Regular	2012-13	Tom McKerrell	Tarjinder Singh
+July 08, 2014	James Watson Pavilion	Regular	2012-13	Michal Szpak	Tomislav Ilicic
+July 21, 2014	James Watson Pavilion	Regular	2012-13	Neneh Sallah	Eva Archer
+August 04, 2014	James Watson Pavilion	Regular	2012-13	Koi Wangwiwatsin	Aleksandra Kolodziejczyk
+August 18, 2014	James Watson Pavilion	Regular	2012-13	Mia Petljak	Vagheesh Narasimhan
+September 01, 2014	James Watson Pavilion	Regular	2012-13	Tomislav Ilicic	Kaur Alasoo
+September 15, 2014	James Watson Pavilion	Regular	2012-13	Eva Archer	Jeremy Schwartzentruber
+September 29, 2014	James Watson Pavilion	Regular	2012-13	Kaur Alasoo	Sophia David
+October 13, 2014	James Watson Pavilion	Regular	2012-13	Tarjinder Singh	Konstantinos Tzelepis
+October 27, 2014	James Watson Pavilion	Regular	2012-13	Jeremy Schwartzentruber	Stefan Dentro
+November 10, 2014	James Watson Pavilion	Regular	2012-13	Aleksandra Kolodziejczyk	Mabel Teng
+November 24, 2014	James Watson Pavilion	Regular	2012-13	Vagheesh Narasimhan	Jolyon Martin
+December 8, 2014	James Watson Pavilion	Regular	2013-14	Konstantinos Tzelepis	David Clever
+January 12, 2015	-	Regular	2013-14	Stefan Dentro	Alice Stanley
+February 2, 2015	-	Regular	2013-14	Mabel Teng	Velislava Petrova
+February 16, 2015	-	Regular	2013-14	Jolyon Martin	Sumana Sharma
+March 2, 2015	-	Regular	2013-14	David Clever	Maria Levitin
+March 16, 2015	-	Regular	2013-14	Alice Stanley	Anders Bergström
+March 30, 2015	-	Regular	2013-14	Velislava Petrova	Liliana Antunes
+April 20, 2015	-	Regular	2013-14	Sumana Sharma	Ranna El Khairi
+May 5, 2015	-	Regular	2013-14	Maria Levitin	Katrina de Lange
+May 18, 2015	-	Regular	2013-14	Anders Bergström	Richard Gunning
+June 1, 2015	-	Regular	2013-14	Liliana Antunes	Crystal Chia
+June 15, 2015	-	Regular	2013-14	Ranna El Khairi	Christian Owusu
+June 29, 2015	-	Regular	2013-14	Katrina de Lange	John Lees
+July 13, 2015	-	Regular	2013-14	Richard Gunning	Nicola Roberts
+July 27, 2015	-	Regular	2013-14	Crystal Chia	Meng Li
+August 10, 2015	-	Regular	2013-14	Christian Owusu	phd14
+August 24, 2015	-	Regular	2013-14	John Lees	phd14
+September 7, 2015	-	Regular	2013-14	Nicola Roberts	phd14
+September 21, 2015	-	Regular	2013-14	Meng Li	phd14
+October 12, 2015	-	Regular	2013-14	phd14	phd14
