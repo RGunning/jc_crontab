@@ -1,19 +1,91 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
-use Date::Parse;
+use Modern::Perl;
+use DateTime;
+use DateTime::Format::DateParse;
 
-@time = localtime(time);
+use Data::Dumper;
+use LWP::Simple;
+use HTML::Parser;
+use HTML::Entities;
+use HTML::TableExtract;
+use Cwd;
 
-open DATES, "/nfs/users/nfs_r/rg12/jc_crontab/jc_dates.txt";
+my $basedir = getcwd();
 
-while(<DATES>){
-	chomp;
-	@splat = split "\t";
-	# get the date string
-	$splat[0] =~ s/"//g;
-	@this_time = strptime($splat[0]);
-	# Send the 4PM email the day of the journal club, and alert the next presenter/host
-#	if(!($time[3] - $this_time[3]) && !($time[4] - $this_time[4]) && !($time[5] - $this_time[5])){
+my $today = DateTime->today();
+#my $today = DateTime->new(	year => 2014, month => 11, day => 21); #Friday test
+
+open DATES, $basedir ."/jc_dates.txt" or die "Can't open Dates file!";
+#July 15, 2013	 C209/210	Regular	2011-12	 Florian Sessler	 Sam Behjati
+
+# Does date file need renewed? Check last date against today
+
+while( my $line = <DATES>){
+	chomp $line;
+	my @fields = split "\t", $line;
+
+	my $dt = DateTime::Format::DateParse->parse_datetime( $fields[0] );
+	$dt->truncate( to => 'day' );
+
+	# if journal club is in 3 days (i.e. it is Friday)
+	my $dtclone = $dt->clone();
+	$dtclone->add( days => -3 );
+	if ( $dtclone == $today ) {
+
+		friday_email;
+		last;
+	}
+
+	# if journal club today (i.e. it is Monday)
+	if ( $dt == $today ) {
+		monday_emal;
+		last;
+	}
+}
+
+sub get_email_from_name {
+    my $name = shift;
+    $name =~ s/-/ /g;
+    my $query = `/nfs/users/nfs_r/rg12/jc_crontab/my_tele.pl "$name" `;
+    chomp $query;
+    my $emailaddy = $query . "\@sanger.ac.uk";
+    return $emailaddy;
+}
+
+sub get_rota {
+	my $url = 'http://scratchy.internal.sanger.ac.uk/wiki/index.php/PhDJournalClub';
+	my $html_string = get $url;
+	die "Couldn't get $url" unless defined $html_string;
+	open (my $fh, '>', $basedir.'jc_dates.txt') or die "Can't open file, $!\n";
+
+	my $te = HTML::TableExtract->new(count =>1 );
+	#my $te = HTML::TableExtract->new(headers =>['Date','Room','Type','Intake year','Presenter(s): Group 1','Chair'] );
+
+	$te->parse($html_string);
+
+	my $counter=0;
+	foreach my $row ($te->rows) {
+    	$counter++;
+    	if (!($counter==1)){
+    		#remove tabs and spaces
+    		$row = join(';', @$row);
+    		$row =~ s/^[\t ]|[\t]//g;
+    		$row =~ s/;/\t/g; # tab delimit
+
+    		#remove days of week
+    		$row =~ s/ Monday| Tuesday| Wednesday| Thursday| Friday| Saturday| Sunday//g;
+    		say $fh $row;
+    	}
+	}
+}
+
+sub monday_email {
+	#Send the 4PM email the day of the journal club, and alert the next presenter/host
+
+
+
+
 #		open TXT, "/nfs/users/nfs_r/rg12/jc_crontab/jc_email.txt";
 #		while(<TXT>){
 #			$text .= $_;
@@ -33,31 +105,23 @@ while(<DATES>){
 #
 #		# Alert the next round of jc chiefs
 #		my $next_presenter_email = get_email_from_name($next_presenter);
-#       my $next_chair_email     = get_email_from_name($next_chair);
+      my $next_chair_email     = get_email_from_name($next_chair);
 #		`echo "Heads up! Next journal club will be headed by:\n$next_presenter as presenter\n$next_chair as chair\nSend out the voting poll in a few days.\nThanks\nthe crontab ghost.\n" | mutt -s \"You're up next!\" $next_presenter_email $next_chair_email`;
 #		last;
-#	}
-#	# Send the Friday email when the next Monday is jounal club
-#	# Monday - x_Day = 3 when x_Day is Friday.
-#	if(($this_time[3] - $time[3] == 3) && !($time[4] - $this_time[4]) && !($time[5] - $this_time[5])){
-#		open TXT, "/nfs/users/nfs_r/rg12/jc_crontab/jc_friday.txt";
-#		while(<TXT>){
-#			$text .= $_;
-#		}
-#		close TXT;
-#		$text =~ s/foo/$splat[4]/;
-#		$text =~ s/bar/$splat[5]/;
-#		`echo "$text" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -s \"Remember Journal Club MONDAY\" phdjc\@sanger.ac.uk`;
-#		last;
-#	}
 }
 
-sub get_email_from_name {
-    my $name = shift;
-    $name =~ s/-/ /g;
-    my $query = `/nfs/users/nfs_r/rg12/jc_crontab/my_tele.pl "$name" `;
-    chomp $query;
-    my $emailaddy = $query . "\@sanger.ac.uk";
-    return $emailaddy;
+
+
 }
-      
+
+sub friday_email {
+	open TXT, "/nfs/users/nfs_r/rg12/jc_crontab/jc_friday.txt";
+	while(<TXT>){
+		$text .= $_;
+	}
+	close TXT;
+	$text =~ s/foo/$splat[4]/;
+	$text =~ s/bar/$splat[5]/;
+	`echo "$text" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -s \"Remember Journal Club MONDAY\" phdjc\@sanger.ac.uk`;
+}
+
