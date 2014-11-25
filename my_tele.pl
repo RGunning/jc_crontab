@@ -1,4 +1,4 @@
-#!/software/bin/perl -w
+#!/usr/bin/env perl -w
 # $Id: tele,v 1.9 2011-03-25 11:02:52 dh3 Exp $
 # vi:ai:cindent:ts=4:sw=4
 
@@ -27,8 +27,8 @@ $mesg->code && die $mesg->error;
 push @entries, $mesg->entries;
 
 format STDOUT =
-@<<<<<<<< 
-$uid,      
+@<<<<<<<<
+$uid,
 .
 
 #foreach $entry ($mesg->entries) { $entry->dump; }
