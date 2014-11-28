@@ -3,61 +3,94 @@
 use Modern::Perl;
 use DateTime;
 use DateTime::Format::DateParse;
-
-use Data::Dumper;
 use LWP::Simple;
-use HTML::Parser;
-use HTML::Entities;
 use HTML::TableExtract;
 use Cwd;
+use Net::LDAP;
+
 
 my $basedir = getcwd();
 my ($friday_txt, $fourpm_text);
-my ($presenter, $chair, $presenter2, $chair2);
-my $te;
+my ($presenter, $chair);
+my $presenter2 ='';
+my $chair2 = ' ';
+my ($te,@table,$nrows);
+my $counter = 0;
 
 my $today = DateTime->today();
+
+### SET CUSTOM DATE FOR TESTING
 #my $today = DateTime->new(	year => 2014, month => 11, day => 21); #Friday test
+#my $today = DateTime->new(	year => 2014, month => 11, day => 24); #Monday test
 
-open DATES, $basedir ."/jc_dates.txt" or die "Can't open Dates file!";
-#July 15, 2013	 C209/210	Regular	2011-12	 Florian Sessler	 Sam Behjati
+get_rota();
 
-# Does date file need renewed? Check last date against today
-#get_rota();
+foreach my $rows (@table){
+	$counter ++;
+	next if $counter == 1;
+	$presenter = $rows->[4];
+	$chair = $rows->[5];
 
-while( my $line = <DATES>){
-	chomp $line;
-	my @fields = split "\t", $line;
+	my $dt = DateTime::Format::DateParse->parse_datetime( $rows->[0] );
+ 	$dt->truncate( to => 'day' );
 
-	$presenter = $fields[4];
-	$chair = $fields[5];
-
-	my $dt = DateTime::Format::DateParse->parse_datetime( $fields[0] );
-	$dt->truncate( to => 'day' );
-
-	# if journal club is in 3 days (i.e. it is Friday)
-	my $dtclone = $dt->clone();
-	$dtclone->add( days => -3 );
+ 	# work out if journal club is in 3 days (i.e. it is Friday)
+ 	my $dtclone = $dt->clone();
+ 	$dtclone->add( days => -3 );
 
 	if ( $dtclone == $today ) {
-		# Get next event
-		friday_email();
-		last;
-	}
+ 		friday_email();
+ 		last;
+ 	}
 
-	# if journal club today (i.e. it is Monday)
-	if ( $dt == $today ) {
-		monday_email();
-		last;
-	}
+ 	# if journal club today (i.e. it is Monday)
+ 	if ( $dt == $today ) {
+ 	 	# Get next event (Assume in sorted order)
+ 		if ($counter+1 <= $nrows) {
+ 			$presenter2 = $table[$counter]->[4];
+ 			$chair2 = $table[$counter]->[5];
+ 		}
+ 		monday_email();
+ 		last;
+ 	}
 }
 
-sub get_email_from_name {
-    my $name = shift;
-    $name =~ s/-/ /g;
-    my $query = `$basedir/my_tele.pl "$name" `;
-    chomp $query;
-    my $emailaddy = $query . "\@sanger.ac.uk";
+sub tele {
+	my $name = shift;
+	$name =~ s/-/ /g;
+	my $ldap=Net::LDAP->new('ldap.internal.sanger.ac.uk') or die "$@";
+	$ldap->bind;
+	my $result = $ldap->search(
+		base => "ou=people,dc=sanger,dc=ac,dc=uk",
+		filter => "(&(sangerActiveAccount=TRUE)(sangerRealPerson=TRUE)(|(cn=*$name*)(givenName=*$name*)(uid=$name)(telephonenumber=$name)(roomNumber=$name)(departmentNumber=$name)))",
+	);
+
+	die $result->error if $result->code;
+	my $resultscount = $result->count;
+
+	my @uid;
+	foreach my $entry ($result->entries) {
+  	 	push @uid ,  ($entry->get_value("uid") || '');
+	}
+
+	# also search for "special" entries
+	my $results2=$ldap->search(
+		base=>'ou=tele,dc=sanger,dc=ac,dc=uk',
+		filter=>"(cn=*$name*)",
+	);
+	$results2->code && die $results2->error;
+	foreach my $entry ($results2->entries) {
+  	 	push @uid ,  ($entry->get_value("uid") || '');
+	}
+
+	$resultscount += $results2->count;
+	# if count >1 $result->count;
+
+	$ldap->unbind;
+
+	# What to do if count >1 $result->count;
+	#return first element as email
+	my $emailaddy = $uid[0] . "\@sanger.ac.uk";
     return $emailaddy;
 }
 
@@ -65,57 +98,47 @@ sub get_rota {
 	my $url = 'http://scratchy.internal.sanger.ac.uk/wiki/index.php/PhDJournalClub';
 	my $html_string = get $url;
 	die "Couldn't get $url" unless defined $html_string;
-	open (my $fh, '>', $basedir.'jc_dates.txt') or die "Can't open file, $!\n";
 
 	$te = HTML::TableExtract->new(count =>1 );
-	#my $te = HTML::TableExtract->new(headers =>['Date','Room','Type','Intake year','Presenter(s): Group 1','Chair'] );
-
 	$te->parse($html_string);
-
-	my $counter=0;
-	foreach my $row ($te->rows) {
-    	$counter++;
-    	if (!($counter==1)){
-    		#remove tabs and spaces
-    		$row = join(';', @$row);
-    		$row =~ s/^[\t ]|[\t]//g;
-    		$row =~ s/;/\t/g; # tab delimit
-
-    		#remove days of week
-    		$row =~ s/ Monday| Tuesday| Wednesday| Thursday| Friday| Saturday| Sunday//g;
-    		say $fh $row;
-    	}
+	@table = $te->rows;
+	$nrows = @table;
+	foreach (@table){
+		for my $i ( 0 .. 5){
+			$_->[$i] =~ s/^ +|[\t]| +$//g;
+		}
+		$_->[0] =~ s/ Monday| Tuesday| Wednesday| Thursday| Friday| Saturday| Sunday//g;
 	}
 }
 
-sub monday_email {
-	#Send the 4PM email the day of the journal club, and alert the next presenter/host
-		my $line2 = <DATES>;
-		chomp($line2);
-		my @splat2 = split "\t", $line2;
-		my $presenter2 = $splat2[4];
-		my $chair2     = $splat2[5];
+sub monday_email {#
+# 	#Send the 4PM email the day of the journal club, and alert the next presenter/host
 
-	# get text
-	email_text();
+ 	# get text
+ 	email_text();
 
-	#`echo "$fourpm_text" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -c dl5\@sanger.ac.uk -s \"Remember Journal Club TODAY\" phdjc\@sanger.ac.uk`;
+ 	# Alert the next round of jc chiefs
+ 	my $next_presenter_email = tele($presenter2);
+ 	my $next_chair_email     = tele($chair2);
 
-	# Alert the next round of jc chiefs
-	my $next_presenter_email = get_email_from_name($presenter2);
-	my $next_chair_email     = get_email_from_name($chair2);
-	#`echo "Heads up! Next journal club will be headed by:\n$presenter2 as presenter\n$chair2 as chair\nSend out the voting poll in a few days.\nThanks\nthe crontab ghost.\n" | mutt -s \"You're up next!\" $next_presenter_email $next_chair_email`;
+ 	### COMMENT THE FOLLOWING LINES FOR TESTING
+ 	`echo "$fourpm_text" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -c dl5\@sanger.ac.uk -s \"Remember Journal Club TODAY\" phdjc\@sanger.ac.uk`;
+ 	`echo "Heads up! Next journal club will be headed by:\n$presenter2 as presenter\n$chair2 as chair\nSend out the voting poll in a few days.\nThanks\nthe crontab ghost.\n" | mutt -s \"You're up next!\" $next_presenter_email $next_chair_email`;
 
-
-	say $fourpm_text;
-	say "Heads up! Next journal club will be headed by:\n$presenter2 as presenter\n$chair2 as chair\nSend out the voting poll in a few days.\nThanks\nthe crontab ghost.";
+	### UNCOMMENT THE FOLLOWING LINES FOR TESTING
+#  	say $fourpm_text;
+#  	say "$next_presenter_email $next_chair_email";
+#  	say "Heads up! Next journal club will be headed by:\n$presenter2 as presenter\n$chair2 as chair\nSend out the voting poll in a few days.\nThanks\nthe crontab ghost.";
 }
 
 sub friday_email {
 	# get text
 	email_text();
-# 	`echo "$friday_txt" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -s \"Remember Journal Club MONDAY\" phdjc\@sanger.ac.uk`;
-	say $friday_txt;
+	### COMMENT THE FOLLOWING LINE FOR TESTING
+ 	`echo "$friday_txt" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -s \"Remember Journal Club MONDAY\" phdjc\@sanger.ac.uk`;
+
+	### UNCOMMENT THE FOLLOWING LINE FOR TESTING
+#	say $friday_txt;
 }
 
 
@@ -141,7 +164,6 @@ thank you,
 The Ghost of Sergei's crontab
 
 https://helix.wtgc.org/groups/phd-journal-club
-
 EOF
 
 	$friday_txt = <<"EOF";
