@@ -22,7 +22,6 @@ The main script send_jc_email.pl is all you really need. [WORKING ON INSTALL SCR
 The old version also included some helper files (jc_dates, jc_email, jc_friday). The jc_dates files was more or less copied from here every quarter http://scratchy.internal.sanger.ac.uk/wiki/index.php/PhDJournalClub.
 
 The crontab sends out messages on Fridays and Mondays. I have the crontab set on farm3-head3 now as follows:
-e.g.
 
     0 16 * * 5 /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl
     0 15 * * 1 /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl
