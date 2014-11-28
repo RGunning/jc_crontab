@@ -3,15 +3,28 @@ jc_crontab
 
 Sanger Journal Club the Ghost of Sergei Crontab
 
-Once upon a time, long before my time, there was a Sanger PhD student called Sergei. As the story goes, Sergei was not good at attending the Jornal Club. In fact he never went at all. 
+Once upon a time, long before my time, there was a Sanger PhD student called Sergei. As the story goes, Sergei was not good at attending the Jornal Club. In fact he never went at all.
 This annoyed the Journal Club Leaders, Annabel and Christina. Using their power as Leader, they tasked Sergei with not only attending the Journal Club, but making sure all the PhD's attended.
 
 Sergei moaned and sulked for weeks until a bright idea hit him. Using all his resources he whipped up some magic, and the cron was born and he could never forget Jornal Club again.
 
-Now at this time, the cron was a once-a-week generic message. 
+Now at this time, the cron was a once-a-week generic message.
 Since then, new functions were requested and the script evolved over time.
 
 Cronmasters changed and the years went by. But no-one forgot Journal Club ever again.
+
+
+Requirements
+----------
+The script must be run on the Sanger Network and requires the following perl modules to be installed:
+
+- Modern::Perl
+- DateTime
+- DateTime::Format::DateParse
+- LWP::Simple
+- HTML::TableExtract
+- Cwd
+- Net::LDAP
 
 Usage
 ----------
@@ -31,10 +44,10 @@ Passing on
 
 When it is time to pass on the script, you should find a suitable apprentice receptive of the cron.
 
-They should ideally 
-1) know how cron works, 
-2) maintain the legacy perl or update the code to fit the required spec, and 
-3) be willing to swear a solemn oath that you won't correct the grammar or remove references to our dear past cron masters, Sergei, Lars and Dan and will furthermore require your successors to similarly keep the faith. 
+They should ideally
+1) know how cron works,
+2) maintain the legacy perl or update the code to fit the required spec, and
+3) be willing to swear a solemn oath that you won't correct the grammar or remove references to our dear past cron masters, Sergei, Lars and Dan and will furthermore require your successors to similarly keep the faith.
 
 A first or second year would be best. This their opportunity for university honor and acclaim.
 
