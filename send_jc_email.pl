@@ -16,6 +16,7 @@ my $presenter2 ='';
 my $chair2 = ' ';
 my ($te,@table,$nrows);
 my $counter = 0;
+my $day_name;
 
 my $today = DateTime->today();
 
@@ -33,12 +34,16 @@ foreach my $rows (@table){
 
 	my $dt = DateTime::Format::DateParse->parse_datetime( $rows->[0] );
  	$dt->truncate( to => 'day' );
+	$day_name = $dt->day_name;
 
- 	# work out if journal club is in 3 days (i.e. it is Friday)
+ 	# work out if journal club is in 3/4 days (i.e. it is Friday and journal club is on Monday/Tuesday)
  	my $dtclone = $dt->clone();
- 	$dtclone->add( days => -3 );
+ 	my $dtclone2 = $dt->clone();
 
-	if ( $dtclone == $today ) {
+ 	$dtclone->add( days => -3 ); #Journal club monday
+ 	$dtclone2->add( days => -4 ); #Journal club tuesday
+
+	if ( $dtclone == $today || $dtclone2 == $today) {
  		friday_email();
  		last;
  	}
@@ -135,7 +140,7 @@ sub friday_email {
 	# get text
 	email_text();
 	### COMMENT THE FOLLOWING LINE FOR TESTING
- 	`echo "$friday_txt" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -s \"Remember Journal Club MONDAY\" phdjc\@sanger.ac.uk`;
+ 	`echo "$friday_txt" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -s \"Remember Journal Club $day_name\" phdjc\@sanger.ac.uk`;
 
 	### UNCOMMENT THE FOLLOWING LINE FOR TESTING
 #	say $friday_txt;
@@ -170,8 +175,8 @@ EOF
 Dear Attendees,
 
 This is a reminder to us that we are due to attend the PhD journal club at
-16:00 on Monday. Please don't forget to get hold of the paper and read
-it over the weekend or on Monday if you still haven't done so.
+16:00 on $day_name. Please don't forget to get hold of the paper and read
+it over the weekend or on $day_name if you still haven't done so.
 
 Monday's presenter: $presenter
 Monday's chair: $chair
