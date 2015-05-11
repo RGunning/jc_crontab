@@ -28,7 +28,7 @@ get_rota();
 
 foreach my $rows (@table){
 	$counter ++;
-	next if $counter == 1;
+	next if $counter == 1; # has header row
 	$presenter = $rows->[4];
 	$chair = $rows->[5];
 
@@ -107,10 +107,11 @@ sub get_rota {
 	$te = HTML::TableExtract->new(count =>1 );
 	$te->parse($html_string);
 	@table = $te->rows;
-	$nrows = @table;
+	$nrows = @table; #count number of rows
 	foreach (@table){
-		for my $i ( 0 .. 5){
-			$_->[$i] =~ s/^ +|[\t]| +$//g;
+		for my $i ( 0 .. 5){ #for each cell of row
+			next if (!defined $_->[$i]); # skip if blank cell
+			$_->[$i] =~ s/^ +|[\t]| +$//g; # remove proceeding/trailing spaces
 		}
 		$_->[0] =~ s/ Monday| Tuesday| Wednesday| Thursday| Friday| Saturday| Sunday//g;
 	}
@@ -128,7 +129,7 @@ sub monday_email {#
 
  	### COMMENT THE FOLLOWING LINES FOR TESTING
  	`echo "$fourpm_text" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -c dl5\@sanger.ac.uk -s \"Remember Journal Club TODAY\" phdjc\@sanger.ac.uk`;
- 	`echo "Heads up! Next journal club will be headed by:\n$presenter2 as presenter\n$chair2 as chair\nSend out the voting poll in a few days.\nThanks\nthe crontab ghost.\n" | mutt -s \"You're up next!\" $next_presenter_email $next_chair_email`;
+ 	`echo "Heads up! Next journal club will be headed by:\n$presenter2 as presenter\n$chair2 as chair\nThanks\nthe crontab ghost.\n" | mutt -s \"You're up next!\" $next_presenter_email $next_chair_email`;
 
 	### UNCOMMENT THE FOLLOWING LINES FOR TESTING
 #  	say $fourpm_text;
