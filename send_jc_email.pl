@@ -102,7 +102,7 @@ sub tele {
 	# What to do if count >1 $result->count;
 	#return first element as email
 	my $emailaddy = $uid[0] . "\@sanger.ac.uk";
-    return $emailaddy;
+	return $emailaddy;
 }
 
 sub get_rota {
@@ -148,7 +148,7 @@ sub friday_email {
 	email_text();
 	if (!$testing){
 		`echo "$friday_txt" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -s \"Remember Journal Club $day_name\" phdjc\@sanger.ac.uk`;
-	} else
+	} else {
 		say $friday_txt;
 	}
 }
