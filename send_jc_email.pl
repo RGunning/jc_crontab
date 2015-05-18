@@ -24,8 +24,9 @@ my $testing = shift @ARGV || 0; # set to 1 for testing mode
 
 ### SET CUSTOM DATE FOR TESTING
 if ($testing){
-#$today = DateTime->new(	year => 2014, month => 11, day => 21); #Friday test
-#$today = DateTime->new(	year => 2014, month => 11, day => 24); #Monday test
+	$today = DateTime->today();
+	#$today = DateTime->new(	year => 2014, month => 11, day => 21); #Friday test
+	#$today = DateTime->new(	year => 2014, month => 11, day => 24); #Monday test
 }
 
 get_rota();
