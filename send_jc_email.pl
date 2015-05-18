@@ -19,11 +19,13 @@ my $counter = 0;
 my $day_name;
 
 my $today = DateTime->today();
-my $testing = 0; # set to 1 for testing mode
+my $testing = shift @ARGV || 0; # set to 1 for testing mode
 
 ### SET CUSTOM DATE FOR TESTING
-#my $today = DateTime->new(	year => 2014, month => 11, day => 21); #Friday test
-#my $today = DateTime->new(	year => 2014, month => 11, day => 24); #Monday test
+if ($testing){
+#$today = DateTime->new(	year => 2014, month => 11, day => 21); #Friday test
+#$today = DateTime->new(	year => 2014, month => 11, day => 24); #Monday test
+}
 
 get_rota();
 
