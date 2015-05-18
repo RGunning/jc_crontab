@@ -34,6 +34,7 @@ get_rota();
 foreach my $rows (@table){
 	$counter ++;
 	next if $counter == 1; # has header row
+	next if !($rows->[0]); # skip blank date
 	$presenter = $rows->[4];
 	$chair = $rows->[5];
  	$location = $table[$counter]->[1];
