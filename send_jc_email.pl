@@ -19,6 +19,7 @@ my $counter = 0;
 my $day_name;
 
 my $today = DateTime->today();
+my $testing = 0; # set to 1 for testing mode
 
 ### SET CUSTOM DATE FOR TESTING
 #my $today = DateTime->new(	year => 2014, month => 11, day => 21); #Friday test
@@ -31,6 +32,7 @@ foreach my $rows (@table){
 	next if $counter == 1; # has header row
 	$presenter = $rows->[4];
 	$chair = $rows->[5];
+ 	$location = $table[$counter]->[1];
 
 	my $dt = DateTime::Format::DateParse->parse_datetime( $rows->[0] );
  	$dt->truncate( to => 'day' );
@@ -127,24 +129,24 @@ sub monday_email {#
  	my $next_presenter_email = tele($presenter2);
  	my $next_chair_email     = tele($chair2);
 
- 	### COMMENT THE FOLLOWING LINES FOR TESTING
- 	`echo "$fourpm_text" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -c dl5\@sanger.ac.uk -s \"Remember Journal Club TODAY\" phdjc\@sanger.ac.uk`;
- 	`echo "Heads up! Next journal club will be headed by:\n$presenter2 as presenter\n$chair2 as chair\nThanks\nthe crontab ghost.\n" | mutt -s \"You're up next!\" $next_presenter_email $next_chair_email`;
-
-	### UNCOMMENT THE FOLLOWING LINES FOR TESTING
-#  	say $fourpm_text;
-#  	say "$next_presenter_email $next_chair_email";
-#  	say "Heads up! Next journal club will be headed by:\n$presenter2 as presenter\n$chair2 as chair\nSend out the voting poll in a few days.\nThanks\nthe crontab ghost.";
+ 	if (!$testing){
+ 		`echo "$fourpm_text" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -c dl5\@sanger.ac.uk -s \"Remember Journal Club TODAY\" phdjc\@sanger.ac.uk`;
+ 		`echo "Heads up! Next journal club will be headed by:\n$presenter2 as presenter\n$chair2 as chair\nThanks\nthe crontab ghost.\n" | mutt -s \"You're up next!\" $next_presenter_email $next_chair_email`;
+ 	} else {
+  		say $fourpm_text;
+  		say "$next_presenter_email $next_chair_email";
+  		say "Heads up! Next journal club will be headed by:\n$presenter2 as presenter\n$chair2 as chair\nSend out the voting poll in a few days.\nThanks\nthe crontab ghost.";
+ 	}
 }
 
 sub friday_email {
 	# get text
 	email_text();
-	### COMMENT THE FOLLOWING LINE FOR TESTING
- 	`echo "$friday_txt" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -s \"Remember Journal Club $day_name\" phdjc\@sanger.ac.uk`;
-
-	### UNCOMMENT THE FOLLOWING LINE FOR TESTING
-#	say $friday_txt;
+	if (!$testing){
+		`echo "$friday_txt" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -s \"Remember Journal Club $day_name\" phdjc\@sanger.ac.uk`;
+	} else
+		say $friday_txt;
+	}
 }
 
 
@@ -158,6 +160,7 @@ over this one hour which is left if you still haven't done so.
 
 Today's presenter: $presenter
 Today's chair: $chair
+Location: $location
 
 Next up: $presenter2 chaired by $chair2
 
