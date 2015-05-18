@@ -37,7 +37,7 @@ foreach my $rows (@table){
 	next if !($rows->[0]); # skip blank date
 	$presenter = $rows->[4];
 	$chair = $rows->[5];
- 	$location = $table[$counter]->[1];
+ 	$location = $rows->[1];
 
 	my $dt = DateTime::Format::DateParse->parse_datetime( $rows->[0] );
  	$dt->truncate( to => 'day' );
