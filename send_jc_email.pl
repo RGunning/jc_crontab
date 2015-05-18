@@ -140,7 +140,7 @@ sub monday_email {#
  	} else {
   		say $fourpm_text;
   		say "$next_presenter_email $next_chair_email";
-  		say "Heads up! Next journal club will be headed by:\n$presenter2 as presenter\n$chair2 as chair\nSend out the voting poll in a few days.\nThanks\nthe crontab ghost.";
+  		say "Heads up! Next journal club will be headed by:\n$presenter2 as presenter\n$chair2 as chair\nThanks\nthe crontab ghost.";
  	}
 }
 
