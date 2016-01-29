@@ -36,8 +36,10 @@ The old version also included some helper files (jc_dates, jc_email, jc_friday).
 
 The crontab sends out messages on Fridays and Mondays. I have the crontab set on farm3-head3 now as follows:
 
-    0 16 * * 5 /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl
-    0 15 * * 1 /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl
+    0 16 * * 5 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl
+    0 15 * * 1 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl
+    0 15 * * 2 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl
+    0 15 * * 3 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl
 
 Passing on
 ---------
