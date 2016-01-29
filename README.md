@@ -34,12 +34,12 @@ The current scripts for this are in /nfs/users/nfs_r/rg12/jc_crontab/ and hosted
 The main script send_jc_email.pl is all you really need. [WORKING ON INSTALL SCRIPT]
 The old version also included some helper files (jc_dates, jc_email, jc_friday). The jc_dates files was more or less copied from here every quarter http://scratchy.internal.sanger.ac.uk/wiki/index.php/PhDJournalClub.
 
-The crontab sends out messages on Fridays and Mondays. I have the crontab set on farm3-head3 now as follows:
+The crontab sends out messages on Fridays and Mondays (And occasionally Tuesdays or Wednesdays). I have the crontab set on farm3-head3 now as follows:
 
-    0 16 * * 5 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl
-    0 15 * * 1 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl
-    0 15 * * 2 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl
-    0 15 * * 3 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl
+    0 16 * * 5 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl #Friday
+    0 15 * * 1 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl #Monday
+    0 15 * * 2 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl #Tuesday
+    0 15 * * 3 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl #Wednesday
 
 Passing on
 ---------
