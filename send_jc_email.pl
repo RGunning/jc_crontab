@@ -46,11 +46,13 @@ foreach my $rows (@table){
  	# work out if journal club is in 3/4 days (i.e. it is Friday and journal club is on Monday/Tuesday)
  	my $dtclone = $dt->clone();
  	my $dtclone2 = $dt->clone();
+ 	my $dtclone3 = $dt->clone();
 
- 	$dtclone->add( days => -3 ); #Journal club monday
- 	$dtclone2->add( days => -4 ); #Journal club tuesday
+ 	$dtclone->add( days => -3 ); #Journal club Monday
+ 	$dtclone2->add( days => -4 ); #Journal club Tuesday
+ 	$dtclone3->add( days => -5 ); #Journal club Wednesday
 
-	if ( $dtclone == $today || $dtclone2 == $today) {
+	if ( $dtclone == $today || $dtclone2 == $today || $dtclone3 == $today) {
  		friday_email();
  		last;
  	}
