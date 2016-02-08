@@ -25,8 +25,8 @@ my $testing = shift @ARGV || 0; # set to 1 for testing mode
 ### SET CUSTOM DATE FOR TESTING
 if ($testing){
 	#$today = DateTime->today(time_zone => 'floating');
-	#$today = DateTime->new(	year => 2014, month => 11, day => 21); #Friday test
-	$today = DateTime->new(	year => 2016, month => 3, day => 3); #Thursday test
+	$today = DateTime->new(	year => 2016, month => 2, day => 12); #Friday test
+	#$today = DateTime->new(	year => 2016, month => 3, day => 3); #Thursday test
 }
 
 get_rota();
@@ -41,7 +41,7 @@ foreach my $rows (@table){
 
 	my $dt = DateTime::Format::DateParse->parse_datetime( $rows->[0] );
 	$time = $dt->hms(':');
-	$time="16:00:00" if $time=="00:00:00";
+	$time="16:00:00" if $time =~ "00:00:00";
 	
  	$dt->truncate( to => 'day' );
 	$day_name = $dt->day_name;
