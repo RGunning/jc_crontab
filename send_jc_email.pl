@@ -17,7 +17,7 @@ my $chair2 = '';
 my $location ='';
 my ($te,@table,$nrows);
 my $counter = 0;
-my ($day_name, $hour, $minute);
+my ($day_name, $time);
 
 my $today = DateTime->today(time_zone => 'floating');
 my $testing = shift @ARGV || 0; # set to 1 for testing mode
@@ -40,9 +40,8 @@ foreach my $rows (@table){
  	$location = $rows->[1];
 
 	my $dt = DateTime::Format::DateParse->parse_datetime( $rows->[0] );
-	$hour = $dt->hour();
-	$hour = 16 if $hour == 0;
-	$minute = $dt->minute();
+	$time = $dt->hms(':');
+	$time="16:00:00" if $time==0
 	
  	$dt->truncate( to => 'day' );
 	$day_name = $dt->day_name;
@@ -166,7 +165,7 @@ sub email_text {
 Dear Attendees,
 
 This is a reminder to us that we are due to attend the PhD journal club in one
-hour (at $hour:$minute). Please don't forget to get hold of the paper and read it
+hour (at $time). Please don't forget to get hold of the paper and read it
 over this one hour which is left if you still haven't done so.
 
 Today's presenter: $presenter
@@ -190,7 +189,7 @@ EOF
 Dear Attendees,
 
 This is a reminder to us that we are due to attend the PhD journal club at
-$hour:$minute on $day_name. Please don't forget to get hold of the paper and read
+$time on $day_name. Please don't forget to get hold of the paper and read
 it over the weekend or on $day_name if you still haven't done so.
 
 Monday's presenter: $presenter
