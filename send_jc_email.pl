@@ -41,7 +41,7 @@ foreach my $rows (@table){
 
 	my $dt = DateTime::Format::DateParse->parse_datetime( $rows->[0] );
 	$hour = $dt->hour();
-	$hour = 16 if $hour = 0;
+	$hour = 16 if $hour == 0;
 	$minute = $dt->minute();
 	
  	$dt->truncate( to => 'day' );
