@@ -32,6 +32,7 @@ if ($testing){
 	}else{
 		$today = DateTime->new(	year => $year, month => $month, day => $day); #Friday test
 	}
+	say "Testing date set to: $today";
 }
 
 get_rota();
@@ -54,13 +55,22 @@ foreach my $rows (@table){
  	# work out if journal club is in 3/4 days (i.e. it is Friday and journal club is on Monday/Tuesday)
  	my $dur = $dt->subtract_datetime($today);
 
-	if ( $today->day_name =~ 'Friday' && $dur->in_units('days') <= 6 ) {
+	if ( $today->day_name =~ 'Friday' && $dur->is_positive() && $dur->in_units('days') <= 6 ) {
+		if ( $testing ){
+			say "Testing Journal Club today JC values: " . $dur->in_units('year','month','day');
+			say "Today is a " . $today->day_name;
+			say "Date is future: " . $dur->is_positive();
+			say "Days till JC: " . $dur->in_units('days');
+		}
  		friday_email();
  		last;
  	}
 
  	# if journal club today (i.e. it is Monday)
  	if ( $dur->is_zero() ) {
+		if ( $testing ){
+			print "Testing Journal Club today values: " . $dur->in_units('year','month','day') ."\n";
+		}
  	 	# Get next event (Assume in sorted order)
  		if ($counter+1 <= $nrows) {
  			$presenter2 = $table[$counter]->[4];
