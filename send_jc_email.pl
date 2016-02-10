@@ -72,7 +72,7 @@ foreach my $rows (@table){
  	# if journal club today (i.e. it is Monday)
  	if ( $dur->is_zero() ) {
 		if ( $testing ){
-			print "Testing Journal Club today";
+			say "Testing Journal Club today";
 			say "Years till JC: " . $dur->in_units('years');			
 			say "Months till JC: " . $dur->in_units('months');
 			say "Days till JC: " . $dur->in_units('days');
