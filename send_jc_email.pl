@@ -55,7 +55,7 @@ foreach my $rows (@table){
  	# work out if journal club is in 3/4 days (i.e. it is Friday and journal club is on Monday/Tuesday)
  	my $dur = $dt->subtract_datetime($today);
 
-	if ( $today->day_name =~ 'Friday' && $dur->is_positive() && $dur->in_units('days') <= 6 ) {
+	if ( $today->day_name =~ 'Friday' && $dur->is_positive() && $dur->in_units('days') <= 6 && $dur->in_units('months') == 0 ) {
 		if ( $testing ){
 			say "Testing Journal Club today JC values: " . $dur->in_units('year','month','day');
 			say "Today is a " . $today->day_name;
