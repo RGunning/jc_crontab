@@ -47,21 +47,16 @@ foreach my $rows (@table){
 	$day_name = $dt->day_name;
 
  	# work out if journal club is in 3/4 days (i.e. it is Friday and journal club is on Monday/Tuesday)
- 	my $dtclone = $dt->clone();
- 	my $dtclone2 = $dt->clone();
- 	my $dtclone3 = $dt->clone();
+ 	my $dur = $dt->subtract_datetime($today)->in_units('days');
+ 	
 
- 	$dtclone->add( days => -3 ); #Journal club Monday
- 	$dtclone2->add( days => -4 ); #Journal club Tuesday
- 	$dtclone3->add( days => -5 ); #Journal club Wednesday
-
-	if ( $dtclone == $today || $dtclone2 == $today || $dtclone3 == $today) {
+	if ( if $today->day_name='Friday' && $dur <= 6 ) {
  		friday_email();
  		last;
  	}
 
  	# if journal club today (i.e. it is Monday)
- 	if ( $dt == $today ) {
+ 	if ( $dur == 0 ) {
  	 	# Get next event (Assume in sorted order)
  		if ($counter+1 <= $nrows) {
  			$presenter2 = $table[$counter]->[4];
