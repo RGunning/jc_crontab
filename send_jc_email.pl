@@ -50,7 +50,7 @@ foreach my $rows (@table){
  	my $dur = $dt->subtract_datetime($today)->in_units('days');
  	
 
-	if ( $today->day_name == 'Friday' && $dur <= 6 ) {
+	if ( $today->day_name =~ 'Friday' && $dur <= 6 ) {
  		friday_email();
  		last;
  	}
