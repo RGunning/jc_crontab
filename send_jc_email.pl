@@ -24,9 +24,14 @@ my $testing = shift @ARGV || 0; # set to 1 for testing mode
 
 ### SET CUSTOM DATE FOR TESTING
 if ($testing){
-	$today = DateTime->today(time_zone => 'floating');
-	#$today = DateTime->new(	year => 2016, month => 2, day => 12); #Friday test
-	#$today = DateTime->new(	year => 2016, month => 3, day => 3); #Thursday test
+	my $year= shift @ARGV || 0;
+	my $month= shift @ARGV || 0;
+	my $day= shift @ARGV || 0;
+	if ( $year == 0){
+		$today = DateTime->today(time_zone => 'floating');
+	}else{
+		$today = DateTime->new(	year => $year, month => $month, day => $day); #Friday test
+	}
 }
 
 get_rota();
