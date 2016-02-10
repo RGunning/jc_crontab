@@ -57,10 +57,13 @@ foreach my $rows (@table){
 
 	if ( $today->day_name =~ 'Friday' && $dur->is_positive() && $dur->in_units('days') <= 6 && $dur->in_units('months') == 0 ) {
 		if ( $testing ){
-			say "Testing Journal Club today JC values: " . $dur->in_units('year','month','day');
+			say "Testing Journal Club today JC";
 			say "Today is a " . $today->day_name;
 			say "Date is future: " . $dur->is_positive();
+			say "Years till JC: " . $dur->in_units('years');			
+			say "Months till JC: " . $dur->in_units('months');
 			say "Days till JC: " . $dur->in_units('days');
+
 		}
  		friday_email();
  		last;
@@ -69,7 +72,10 @@ foreach my $rows (@table){
  	# if journal club today (i.e. it is Monday)
  	if ( $dur->is_zero() ) {
 		if ( $testing ){
-			print "Testing Journal Club today values: " . $dur->in_units('year','month','day') ."\n";
+			print "Testing Journal Club today";
+			say "Years till JC: " . $dur->in_units('years');			
+			say "Months till JC: " . $dur->in_units('months');
+			say "Days till JC: " . $dur->in_units('days');
 		}
  	 	# Get next event (Assume in sorted order)
  		if ($counter+1 <= $nrows) {
