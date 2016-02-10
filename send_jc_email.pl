@@ -24,8 +24,8 @@ my $testing = shift @ARGV || 0; # set to 1 for testing mode
 
 ### SET CUSTOM DATE FOR TESTING
 if ($testing){
-	#$today = DateTime->today(time_zone => 'floating');
-	$today = DateTime->new(	year => 2016, month => 2, day => 12); #Friday test
+	$today = DateTime->today(time_zone => 'floating');
+	#$today = DateTime->new(	year => 2016, month => 2, day => 12); #Friday test
 	#$today = DateTime->new(	year => 2016, month => 3, day => 3); #Thursday test
 }
 
