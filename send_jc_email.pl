@@ -18,6 +18,7 @@ my $location ='';
 my ($te,@table,$nrows);
 my $counter = 0;
 my ($day_name, $time);
+my $CC = "-c ca3\@sanger.ac.uk -c gradoffice\@sanger.ac.uk";
 
 my $today = DateTime->today(time_zone => 'floating');
 my $testing = shift @ARGV || 0; # set to 1 for testing mode
@@ -155,7 +156,7 @@ sub monday_email {#
  	my $next_chair_email     = tele($chair2);
 
  	if (!$testing){
- 		`echo "$fourpm_text" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -c dl5\@sanger.ac.uk -s \"Remember Journal Club TODAY\" phdjc\@sanger.ac.uk`;
+ 		`echo "$fourpm_text" | mutt $CC -s \"Remember Journal Club TODAY\" phdjc\@sanger.ac.uk`;
  		`echo "Heads up! Next journal club will be headed by:\n$presenter2 as presenter\n$chair2 as chair\nThanks\nthe crontab ghost.\n" | mutt -s \"You're up next!\" $next_presenter_email $next_chair_email`;
  	} else {
   		say $fourpm_text;
@@ -168,7 +169,7 @@ sub friday_email {
 	# get text
 	email_text();
 	if (!$testing){
-		`echo "$friday_txt" | mutt -c jr9\@sanger.ac.uk -c gradoffice\@sanger.ac.uk -s \"Remember Journal Club $day_name\" phdjc\@sanger.ac.uk`;
+		`echo "$friday_txt" | mutt $CC -s \"Remember Journal Club $day_name\" phdjc\@sanger.ac.uk`;
 	} else {
 		say $friday_txt;
 	}
