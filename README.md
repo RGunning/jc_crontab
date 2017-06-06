@@ -41,6 +41,17 @@ The crontab sends out messages on Fridays and Mondays (And occasionally Tuesdays
     0 15 * * 2 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl #Tuesday
     0 15 * * 3 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl #Wednesday
 
+
+Testing
+---------
+
+To test the script is working call the script with the following arguments: 1 year month day
+e.g.
+
+    send_jc_email 1 2017 6 16
+
+This will print out the message it would send if run on that day.
+
 Passing on
 ---------
 
