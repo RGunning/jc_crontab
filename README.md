@@ -26,7 +26,7 @@ The script must be run on the Sanger Network. If running the perl script, the fo
 - Cwd
 - Net::LDAP
 
-If using the compiled script nothing needs done
+Alternatively download the compiled script from the releases to avoid installing perl modules.
 
 Usage
 ----------
