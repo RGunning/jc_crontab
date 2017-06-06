@@ -16,7 +16,7 @@ Cronmasters changed and the years went by. But no-one forgot Journal Club ever a
 
 Requirements
 ----------
-The script must be run on the Sanger Network and requires the following perl modules to be installed:
+The script must be run on the Sanger Network. If running the perl script, the following perl modules need to be installed:
 
 - Modern::Perl
 - DateTime
@@ -25,6 +25,8 @@ The script must be run on the Sanger Network and requires the following perl mod
 - HTML::TableExtract
 - Cwd
 - Net::LDAP
+
+If using the compiled script nothing needs done
 
 Usage
 ----------
@@ -41,7 +43,13 @@ The crontab sends out messages on Fridays and Mondays (And occasionally Tuesdays
     0 15 * * 2 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl #Tuesday
     0 15 * * 3 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.pl #Wednesday
 
+Alternatively, run the compiled script as follows: 
 
+    0 16 * * 5 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email #Friday
+    0 15 * * 1 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email #Monday
+    0 15 * * 2 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email #Tuesday
+    0 15 * * 3 . ${HOME}/.bashrc; /nfs/users/nfs_r/rg12/jc_crontab/send_jc_email.p #Wednesday
+    
 Testing
 ---------
 
