@@ -8,7 +8,6 @@ use HTML::TableExtract;
 use Cwd;
 use Net::LDAP;
 
-
 my $basedir = getcwd();
 my ($friday_txt, $fourpm_text);
 my ($presenter, $chair);
@@ -97,7 +96,6 @@ sub tele {
 		base => "ou=people,dc=sanger,dc=ac,dc=uk",
 		filter => "(&(sangerActiveAccount=TRUE)(sangerRealPerson=TRUE)(|(cn=*$name*)(givenName=*$name*)(uid=$name)(telephonenumber=$name)(roomNumber=$name)(departmentNumber=$name)))",
 	);
-
 	die $result->error if $result->code;
 	my $resultscount = $result->count;
 
@@ -105,7 +103,6 @@ sub tele {
 	foreach my $entry ($result->entries) {
   	 	push @uid ,  ($entry->get_value("uid") || '');
 	}
-
 	# also search for "special" entries
 	my $results2=$ldap->search(
 		base=>'ou=tele,dc=sanger,dc=ac,dc=uk',
